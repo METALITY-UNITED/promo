@@ -23,7 +23,6 @@ logo: /assets/img/logo.webp
   <!-- Dancing Script for elegant vintage hand-drawn splash logo -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Custom CSS */
     body {
       font-family: 'Inter', sans-serif;
       background-color: #0d0d0d;
@@ -108,8 +107,6 @@ logo: /assets/img/logo.webp
       text-align: center;
       padding: 2rem;
       background-color: rgba(0, 0, 0, 0.5);
-      /* 半透明の背景 */
-      border-radius: 10px;
     }
 
     .album-image {
@@ -132,7 +129,6 @@ logo: /assets/img/logo.webp
     }
 
     .streaming-link img {
-      width: 50px;
       transition: transform 0.3s ease-in-out;
     }
 
@@ -217,15 +213,16 @@ logo: /assets/img/logo.webp
   <!-- Album Section 1 -->
   {% for work in site.data.works %}
   <section class="album-section bg-gray-900">
-    <div class="album-section-parallax blur brightness-50" style="background-image: url('{{ work.image }}');"></div>
+    <div class="album-section-parallax blur brightness-50 bg-fixed" style="background-image: url('{{ work.image }}');">
+    </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-      <div class="album-content">
+      <div class="album-content rounded-xl">
         <img src="{{ work.image }}" alt="{{ work.title }}" class="album-image">
         <h2 class="text-4xl font-bold mt-8">{{ work.title }}</h2>
         <p class="mt-4 text-lg max-w-2xl mx-auto">{{ work.description }}</p>
         <div class="streaming-links">
           {% for link in work.links %}
-          <a href="{{ link.url }}" target="_blank" class="streaming-link">
+          <a href="{{ link.url }}" target="_blank" class="streaming-link size-12">
             <img src="{{ link.icon }}">
           </a>
           {% endfor %}
@@ -235,37 +232,35 @@ logo: /assets/img/logo.webp
   </section>
   {% endfor %}
 
+  <!-- Social Promotion Section -->
+  <footer class="bg-gray-900 text-white py-8 mt-16">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4">Check us out on X and YouTube!</h2>
+      <p class="mb-6">Follow us for the latest updates, videos, and more.</p>
+      <div class="flex justify-center gap-8">
+        <a href="https://x.com/metality_united" target="_blank" rel="noopener" class="w-12">
+          <img src="/assets/icon/x.svg" alt="X">
+        </a>
+        <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" class="w-16">
+          <img src="/assets/icon/yt.png" alt="YouTube" class="">
+        </a>
+      </div>
+    </div>
+  </footer>
+
   <!-- Message Box -->
   <div id="message-box" class="message-box"></div>
 
   <script>
-    // hero-sectionの背景画像にスクロールでブラーをかける
     window.addEventListener('scroll', function () {
       const hero = document.querySelector('.hero-section');
       if (!hero) return;
-      // スクロール量に応じて最大8pxまでブラー
-      const maxBlur = 8;
-      const scrollY = window.scrollY;
-      if (scrollY > window.innerHeight / 2) {
+      if (window.scrollY > window.innerHeight / 2) {
         hero.classList.add('blur');
       } else {
         hero.classList.remove('blur');
       }
-      // // 0〜300pxのスクロールで0〜8pxのブラー
-      // const blur = Math.min(maxBlur, (scrollY / 300) * maxBlur);
-      // hero.style.filter = `blur(${blur}px)`;
     });
-    // JavaScript for dynamic effects and interactivity
-
-    // Function to show a temporary message
-    function showMessage(message) {
-      const messageBox = document.getElementById('message-box');
-      messageBox.textContent = message;
-      messageBox.classList.add('show');
-      setTimeout(() => {
-        messageBox.classList.remove('show');
-      }, 3000);
-    }
 
     window.onload = function () {
       const splashScreen = document.getElementById('splash-screen');
@@ -282,22 +277,7 @@ logo: /assets/img/logo.webp
       setTimeout(() => {
         splashScreen.classList.add('hidden');
         heroSection.classList.add('active');
-      }, 3000); // Adjust duration as needed
-
-      // Parallax effect on scroll
-      window.addEventListener('scroll', function () {
-        const scrolled = window.pageYOffset;
-        const albumParallax = document.querySelectorAll('.album-section-parallax');
-
-        albumParallax.forEach(el => {
-          const sectionTop = el.parentElement.offsetTop;
-          const sectionHeight = el.parentElement.offsetHeight;
-
-          if (scrolled > sectionTop - window.innerHeight && scrolled < sectionTop + sectionHeight) {
-            el.style.transform = 'translateY(' + (scrolled - sectionTop) * 0.7 + 'px)'; // パララックス速度を0.7に調整
-          }
-        });
-      });
+      }, 3000);
     };
   </script>
 </body>
