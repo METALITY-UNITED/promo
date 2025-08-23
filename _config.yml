@@ -22,8 +22,8 @@ title: METALITY UNITED
 email: metality.united@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   METALITY UNITED is a metal band.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: https://pr.metality.band
+baseurl: "/promo" # the subpath of your site, e.g. /blog
+url: https://metality.band/promo/
 twitter_username: metality_united
 
 # Build settings
