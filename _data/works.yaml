@@ -1,0 +1,33 @@
+# Album Sectionデータ例
+- title: Divine Punishment
+  image: /assets/img/divine_punishment.webp
+  description: Taste the divine punishment.
+  links:
+    - icon: /assets/icon/spotify.svg
+      url: https://open.spotify.com/album/0Cnod8v4iJet1EqJZUsbVr
+    - icon: /assets/icon/apple_music.svg
+      url: https://music.apple.com/us/album/divine-punishment-single/1830160887
+- title: Lost Blessing
+  image: /assets/img/lost_blessing.webp
+  description: A blessing breeds a tragic cycle, and the fires of despair scorch the soul.
+  links:
+    - icon: /assets/icon/spotify.svg
+      url: https://open.spotify.com/album/3yJ3cOs1lBT8tl5pTxasNp
+    - icon: /assets/icon/apple_music.svg
+      url: https://music.apple.com/us/album/lost-blessing-single/1710714032
+- title: Night of Death
+  image: /assets/img/night_of_death.webp
+  description: Every soul journeys towards oblivion.
+  links:
+    - icon: /assets/icon/spotify.svg
+      url: https://open.spotify.com/album/5I4xma1ZLZ6xOPgQJsq9Wl
+    - icon: /assets/icon/apple_music.svg
+      url: https://music.apple.com/us/album/night-of-death-single/1701930031
+- title: Black Wings
+  image: /assets/img/black_wings.webp
+  description: Black wings cut through the battlefield night.
+  links:
+    - icon: /assets/icon/spotify.svg
+      url: https://open.spotify.com/album/5eNX8X2EF5a0dQf2ENxspp
+    - icon: /assets/icon/apple_music.svg
+      url: https://music.apple.com/us/album/black-wings-single/1773209410
