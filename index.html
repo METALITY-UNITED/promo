@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METALITY UNITED</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-image: url('https://placehold.co/1920x1080/0d0d0d/e0e0e0?text=EPIC+LIVE+PHOTO');
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .hero-section.active {
+            opacity: 1;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+        }
+        
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        #splash-screen-logo {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .album-section {
+            padding: 8rem 0;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .album-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .album-image {
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        }
+
+        .album-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .streaming-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .streaming-link img {
+            width: 50px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .streaming-link img:hover {
+            transform: scale(1.1);
+        }
+
+        .album-section-parallax {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        /* Album specific parallax backgrounds */
+        #album1-parallax { background-image: url('https://placehold.co/1920x1080/0d0d0d/e0e0e0?text=Album+1+Concept+Art'); }
+        #album2-parallax { background-image: url('https://placehold.co/1920x1080/0d0d0d/e0e0e0?text=Album+2+Concept+Art'); }
+        #album3-parallax { background-image: url('https://placehold.co/1920x1080/0d0d0d/e0e0e0?text=Album+3+Concept+Art'); }
+
+        .btn-mute {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .message-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+        
+        .message-box.show {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .album-content {
+                flex-direction: column;
+            }
+            .album-image {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <h1 id="splash-screen-logo" class="text-6xl md:text-8xl font-bold text-white uppercase tracking-widest">
+            METALITY UNITED
+        </h1>
+    </div>
+
+    <!-- Mute/Unmute Button -->
+    <div id="mute-btn" class="btn-mute">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path id="mute-icon" stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l-2.25 2.25M19.5 12l2.25-2.25m-2.25-2.25L19.5 12m0 0 2.25 2.25m-2.25-2.25L19.5 12m0 0 2.25 2.25" />
+        </svg>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <h1 class="text-5xl md:text-7xl font-bold text-center uppercase tracking-wider">
+            METALITY UNITED
+        </h1>
+        <p class="mt-4 text-xl md:text-2xl text-center">
+            The Ultimate Fusion of Metal
+        </p>
+    </section>
+
+    <!-- Album Section 1 -->
+    <section class="album-section bg-gray-900">
+        <div id="album1-parallax" class="album-section-parallax"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div class="album-content">
+                <img src="https://placehold.co/400x400/262626/ffffff?text=Album+1+Cover" alt="Album 1 Cover" class="album-image">
+                <h2 class="text-4xl font-bold mt-8">Reign of Chaos</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto">
+                    A brutal and symphonic journey into the heart of darkness. This album defines our sound with its relentless energy and epic orchestrations.
+                </p>
+                <div class="streaming-links">
+                    <a href="https://music.apple.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Apple_Music_icon_2020.svg/1024px-Apple_Music_icon_2020.svg.png" alt="Apple Music">
+                    </a>
+                    <a href="https://spotify.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Album Section 2 -->
+    <section class="album-section bg-gray-950">
+        <div id="album2-parallax" class="album-section-parallax"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div class="album-content">
+                <img src="https://placehold.co/400x400/404040/ffffff?text=Album+2+Cover" alt="Album 2 Cover" class="album-image">
+                <h2 class="text-4xl font-bold mt-8">Echoes of the Void</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto">
+                    A more experimental and atmospheric sound. This album explores new sonic landscapes and pushes the boundaries of our genre.
+                </p>
+                <div class="streaming-links">
+                    <a href="https://music.apple.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Apple_Music_icon_2020.svg/1024px-Apple_Music_icon_2020.svg.png" alt="Apple Music">
+                    </a>
+                    <a href="https://spotify.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Album Section 3 -->
+    <section class="album-section bg-gray-800">
+        <div id="album3-parallax" class="album-section-parallax"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+            <div class="album-content">
+                <img src="https://placehold.co/400x400/1a1a1a/ffffff?text=Album+3+Cover" alt="Album 3 Cover" class="album-image">
+                <h2 class="text-4xl font-bold mt-8">The Shattered Crown</h2>
+                <p class="mt-4 text-lg max-w-2xl mx-auto">
+                    Our latest masterpiece. This album is a testament to our evolution, blending our signature aggression with newfound melodic complexity.
+                </p>
+                <div class="streaming-links">
+                    <a href="https://music.apple.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Apple_Music_icon_2020.svg/1024px-Apple_Music_icon_2020.svg.png" alt="Apple Music">
+                    </a>
+                    <a href="https://spotify.com" target="_blank" class="streaming-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message Box -->
+    <div id="message-box" class="message-box"></div>
+
+    <script>
+        // JavaScript for dynamic effects and interactivity
+
+        // Function to show a temporary message
+        function showMessage(message) {
+            const messageBox = document.getElementById('message-box');
+            messageBox.textContent = message;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000);
+        }
+
+        window.onload = function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const heroSection = document.getElementById('hero');
+            const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // Placeholder for band's intro song
+            audio.loop = true;
+            audio.muted = true; // Start muted for autoplay
+            
+            let isMuted = true;
+            const muteBtn = document.getElementById('mute-btn');
+            const muteIcon = document.getElementById('mute-icon');
+
+            // Hide splash screen after a few seconds
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+                heroSection.classList.add('active');
+                audio.play().catch(e => console.log('Autoplay failed:', e));
+            }, 3000); // Adjust duration as needed
+
+            // Handle mute/unmute button click
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                audio.muted = isMuted;
+
+                if (isMuted) {
+                    muteIcon.setAttribute('d', 'M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l-2.25 2.25m-2.25-2.25L19.5 12m0 0 2.25 2.25m-2.25-2.25L19.5 12m0 0 2.25 2.25');
+                    showMessage('Audio Muted');
+                } else {
+                    muteIcon.setAttribute('d', 'M19.5 12c0-.62-.07-1.22-.19-1.803a9.754 9.754 0 0 0-1.74-3.957 9.754 9.754 0 0 0-3.957-1.74C13.22 4.57 12.62 4.5 12 4.5c-1.24 0-2.43.256-3.512.748a9.754 9.754 0 0 0-2.583 2.583A9.754 9.754 0 0 0 4.5 9.512C4.5 10.74 4.89 11.93 5.467 13.013a9.754 9.754 0 0 0 2.583 2.583A9.754 9.754 0 0 0 9.512 19.5C10.74 19.5 11.93 19.11 13.013 18.533a9.754 9.754 0 0 0 2.583-2.583A9.754 9.754 0 0 0 18.533 13.013C19.11 11.93 19.5 10.74 19.5 9.512');
+                    showMessage('Audio Unmuted');
+                }
+            });
+            
+            // Parallax effect on scroll
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const albumParallax = document.querySelectorAll('.album-section-parallax');
+                
+                albumParallax.forEach(el => {
+                    const sectionTop = el.parentElement.offsetTop;
+                    const sectionHeight = el.parentElement.offsetHeight;
+                    
+                    if (scrolled > sectionTop - window.innerHeight && scrolled < sectionTop + sectionHeight) {
+                        el.style.transform = 'translateY(' + (scrolled - sectionTop) * 0.5 + 'px)';
+                    }
+                });
+            });
+        };
+    </script>
+</body>
+</html>
