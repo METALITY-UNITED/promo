@@ -153,8 +153,6 @@ logo: assets/img/logo.webp
 </head>
 
 <body>
-
-  <!-- Splash Screen -->
   <div id="splash-screen">
     <img id="splash-screen-logo" src="{{ page.logo }}" alt="METALITY UNITED ロゴ" fetchpriority="high" />
   </div>
@@ -172,6 +170,7 @@ logo: assets/img/logo.webp
   <!-- Album Section 1 -->
   {% for work in site.data.works %}
   <section class="album-section bg-gray-900">
+    <audio src="{{ work.audio }}" loop preload="auto"></audio>
     <div class="album-section-parallax blur brightness-50 bg-fixed" style="background-image: url('{{ work.image }}');">
     </div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
@@ -211,6 +210,46 @@ logo: assets/img/logo.webp
   </footer>
 
   <script>
+    document.querySelector('#splash-screen').addEventListener('click', function () {
+      this.classList.add('hidden');
+      document.querySelector('.hero-section').classList.add('active');
+      startBgm();
+    });
+    function startBgm() {
+      const albumSections = Array.from(document.querySelectorAll('.album-section'));
+      const audioElements = Array.from(document.querySelectorAll('.album-section audio'));
+      const coverElements = Array.from(document.querySelectorAll('.album-section .album-image'));
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const sources = audioElements.map(el => audioCtx.createMediaElementSource(el));
+      const gainNodes = sources.map(src => {
+        const gain = audioCtx.createGain();
+        src.connect(gain).connect(audioCtx.destination);
+        gain.gain.value = 0;
+        return gain;
+      });
+      audioElements.forEach(el => el.play());
+      // スクロールでクロスフェード
+      window.addEventListener('scroll', function () {
+        const windowCenterY = window.innerHeight / 2;
+        const scrollY = window.scrollY;
+        albumSections.forEach((cover, i) => {
+          const audioElement = audioElements[i];
+          const gainNode = gainNodes[i];
+          const rect = cover.getBoundingClientRect();
+          // centerPositionYがrect.topとrect.bottomの間にあるときはvol=1、そこから離れるにつれて0にフェード
+          if (windowCenterY >= rect.top && windowCenterY <= rect.bottom) {
+            if (gainNode.gain.value === 0) {
+              gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 2);
+              audioElement.currentTime = 0;
+            }
+          } else {
+            if (gainNode.gain.value === 1) {
+              gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+            }
+          }
+        });
+      });
+    }
     window.addEventListener('scroll', function () {
       const hero = document.querySelector('.hero-section');
       if (!hero) return;
