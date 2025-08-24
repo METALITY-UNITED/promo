@@ -2,7 +2,7 @@
 logo: assets/img/logo.webp
 ---
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -188,7 +188,7 @@ logo: assets/img/logo.webp
 
   <!-- Splash Screen -->
   <div id="splash-screen">
-    <img id="splash-screen-logo" src="{{ page.logo }}" alt="METALITY UNITED ロゴ" />
+    <img id="splash-screen-logo" src="{{ page.logo }}" alt="METALITY UNITED ロゴ" fetchpriority="high" />
   </div>
 
   <!-- Hero Section -->
@@ -214,7 +214,7 @@ logo: assets/img/logo.webp
         <div class="streaming-links">
           {% for link in work.links %}
           <a href="{{ link.url }}" target="_blank" class="streaming-link size-12">
-            <img src="{{ link.icon }}">
+            <img src="{{ link.icon }}" alt="{{ link.name }}">
           </a>
           {% endfor %}
         </div>
