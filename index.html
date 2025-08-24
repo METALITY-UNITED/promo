@@ -139,38 +139,6 @@ logo: assets/img/logo.webp
       z-index: 0;
     }
 
-    .btn-mute {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10000;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .message-box {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 10px;
-      text-align: center;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-      pointer-events: none;
-    }
-
-    .message-box.show {
-      opacity: 1;
-    }
-
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .album-content {
@@ -237,10 +205,10 @@ logo: assets/img/logo.webp
         </a>
       </div>
     </div>
+    <div class="text-gray-400 text-center py-4 text-sm">
+      &copy; 2025 METALITY UNITED. All rights reserved.
+    </div>
   </footer>
-
-  <!-- Message Box -->
-  <div id="message-box" class="message-box"></div>
 
   <script>
     window.addEventListener('scroll', function () {
