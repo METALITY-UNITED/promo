@@ -2,6 +2,7 @@
 - title: Divine Punishment
   image: assets/img/divine_punishment.webp
   description: Taste the divine punishment.
+  audio: assets/audio/divine_punishment.mp3
   links:
     - icon: assets/icon/spotify.svg
       name: Spotify
@@ -12,6 +13,7 @@
 - title: Lost Blessing
   image: assets/img/lost_blessing.webp
   description: A blessing breeds a tragic cycle, and the fires of despair scorch the soul.
+  audio: assets/audio/lost_blessing.mp3
   links:
     - icon: assets/icon/spotify.svg
       name: Spotify
@@ -22,6 +24,7 @@
 - title: Night of Death
   image: assets/img/night_of_death.webp
   description: Every soul journeys towards oblivion.
+  audio: assets/audio/night_of_death.mp3
   links:
     - icon: assets/icon/spotify.svg
       name: Spotify
@@ -32,6 +35,7 @@
 - title: Black Wings
   image: assets/img/black_wings.webp
   description: Black wings cut through the battlefield night.
+  audio: assets/audio/black_wings.mp3
   links:
     - icon: assets/icon/spotify.svg
       name: Spotify
