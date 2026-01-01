@@ -1,5 +1,4 @@
 ---
-logo: assets/img/logo.webp
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -9,146 +8,74 @@ logo: assets/img/logo.webp
   <meta name="theme-color" content="#000000">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{site.title}}</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <base href="{{ site.baseurl }}/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP:wght@300;700&display=swap"
+    rel="stylesheet">
   <style>
+    :root {
+      --neon-blue: #00f2ff;
+      --neon-purple: #bc13fe;
+      --deep-dark: #050505;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0d0d0d;
-      color: #f0f0f0;
+      margin: 0;
+      background-color: var(--deep-dark);
+      color: white;
+      font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
       overflow-x: hidden;
-      scroll-behavior: smooth;
     }
 
-    .hero-section {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      background-image: url('assets/img/profile.webp');
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 2s ease-in-out;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-      -webkit-transition: filter 0.5s ease-in-out;
-    }
-
-    .hero-section.active {
-      opacity: 1;
-    }
-
-    #splash-screen {
+    #canvas-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100vh;
-      background-color: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+      z-index: -1;
     }
 
-    #splash-screen img {
-      max-width: 90vw;
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      transition: all 0.3s ease;
     }
 
-    #splash-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
+    .glass-card:hover {
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
     }
 
-    #splash-screen-logo {
-      animation: pulse 2s infinite;
+    .text-neon {
+      text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-purple);
     }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+    .gradient-text {
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .album-section {
-      padding: 8rem 0;
-      position: relative;
-      overflow: hidden;
+    .section-padding {
+      padding: 100px 20px;
     }
 
-    .album-content {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      background-color: rgba(0, 0, 0, 0.5);
+    .btn-action {
+      background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .album-image {
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-      transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-      border-radius: 10px;
-    }
-
-    .album-image:hover {
+    .btn-action:hover {
       transform: scale(1.05);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
-    }
-
-    .streaming-links {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .streaming-link img {
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .streaming-link img:hover {
-      transform: scale(1.1);
-    }
-
-    .album-section-parallax {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      z-index: 0;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .album-content {
-        flex-direction: column;
-      }
-
-      .album-image {
-        max-width: 300px;
-      }
+      box-shadow: 0 0 30px rgba(188, 19, 254, 0.6);
     }
   </style>
 </head>
@@ -162,131 +89,295 @@ logo: assets/img/logo.webp
 </script>
 
 <body>
-  <div id="splash-screen">
-    <img id="splash-screen-logo" src="{{ page.logo }}" alt="METALITY UNITED ロゴ" fetchpriority="high" />
-    <p class="mt-8 text-xl">Tap to enter</p>
-  </div>
+
+  <div id="canvas-container"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center bg-black/50 backdrop-blur-md">
+    <div class="text-2xl font-bold tracking-tighter text-neon">METALITY UNITED</div>
+    <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest">
+      <a href="#about" class="hover:text-cyan-400">About</a>
+      <a href="#members" class="hover:text-cyan-400">Members</a>
+      <a href="#discography" class="hover:text-cyan-400">Discography</a>
+      <a href="#connect" class="hover:text-cyan-400">Connect</a>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
-  <section id="hero" class="hero-section">
-    <h1 class="text-5xl md:text-7xl font-bold text-center uppercase tracking-wider">
-      METALITY UNITED
-    </h1>
-    <p class="mt-4 text-xl md:text-2xl text-center">
-      Symphonic Melodic Power Metal
+  <section class="h-screen flex flex-col justify-center items-center text-center px-4">
+    <h2 class="text-sm md:text-xl mb-4 tracking-[0.3em] opacity-80">METAVERSE × SYMPHONIC METAL</h2>
+    <h1 class="text-5xl md:text-8xl font-bold mb-6 gradient-text">METALITY UNITED</h1>
+    <p class="text-lg md:text-2xl max-w-2xl font-light leading-relaxed mb-8">
+      魂を解放せよ。仮想世界から響く、次世代のシンフォニック・メタル。<br>
+      <span class="text-sm opacity-70">Unleash your soul. The next generation of symphonic metal echoing from the
+        virtual realm.</span>
     </p>
+    <div class="flex flex-col md:flex-row gap-4">
+      <a href="listen.html" class="btn-action">LISTEN NOW / 今すぐ聴く</a>
+    </div>
   </section>
 
-  <!-- Album Section 1 -->
-  {% for work in site.data.works %}
-  <section class="album-section bg-gray-900">
-    <audio src="{{ work.audio }}" loop preload="auto"></audio>
-    <div class="album-section-parallax blur brightness-50 bg-fixed" style="background-image: url('{{ work.image }}');">
+  <!-- About Section -->
+  <section id="about" class="section-padding max-w-6xl mx-auto">
+    <div class="glass-card p-8 md:p-12 text-center">
+      <h3 class="text-3xl font-bold mb-6">THE CONCEPT</h3>
+      <p class="mb-4 text-lg">
+        METALITY UNITEDは、現実とメタバースの境界線を破壊するために結成されたVTuberメタルユニット。壮大なオーケストレーションと重厚なギターリフ、そして圧倒的なスピード感が、デジタルな感情を加速させる。
+      </p>
+      <p class="text-sm opacity-70 italic mb-8">
+        METALITY UNITED fuses the epic sound of symphonic metal with the speed and power of modern metal, all brought to life by cutting-edge VTuber performers. Dive into a new digital world where soaring orchestrations, blazing guitar solos, and unstoppable energy collide. For fans of symphonic, speed, and power metal—welcome to the next generation of virtual metal!
+      </p>
     </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-      <div class="album-content rounded-xl">
-        <img src="{{ work.image }}" alt="{{ work.title }}" class="album-image">
-        <h2 class="text-4xl font-bold mt-8">{{ work.title }}</h2>
-        <p class="mt-4 text-lg max-w-2xl mx-auto">{{ work.description }}</p>
-        <div class="streaming-links">
-          {% for link in work.links %}
-          <a href="{{ link.url }}" target="_blank" class="streaming-link size-12">
-            <img src="{{ link.icon }}" alt="{{ link.name }}">
-          </a>
-          {% endfor %}
+  </section>
+
+  <!-- Members Section -->
+  <section id="members" class="section-padding max-w-7xl mx-auto">
+    <h3 class="text-4xl font-bold text-center mb-16 tracking-widest uppercase">Members</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      <!-- VOCAL -->
+      <div class="glass-card overflow-hidden group">
+        <div class="h-80 w-full relative">
+          <img src="assets/img/members/senri.webp" alt="成瀬センリ" class="w-full h-full object-cover">
+          <div class="absolute bottom-4 left-4 text-left bg-black/60 px-2 py-1 rounded">
+            <span class="text-xs tracking-tighter uppercase opacity-60">VOCAL</span>
+            <h4 class="text-2xl font-bold">成瀬センリ</h4>
+          </div>
+        </div>
+        <div class="p-6">
+          <p class="text-sm mb-2">魂を震わせる奇跡の歌声。</p>
+          <p class="text-xs opacity-50 uppercase">A miraculous voice that shakes the soul.</p>
+        </div>
+      </div>
+      <!-- GUITAR -->
+      <div class="glass-card overflow-hidden group">
+        <div class="h-80 w-full relative">
+          <img src="assets/img/members/aruse.webp" alt="あるせ" class="w-full h-full object-cover">
+          <div class="absolute bottom-4 left-4 text-left bg-black/60 px-2 py-1 rounded">
+            <span class="text-xs tracking-tighter uppercase opacity-60">GUITAR</span>
+            <h4 class="text-2xl font-bold">あるせ</h4>
+          </div>
+        </div>
+        <div class="p-6">
+          <p class="text-sm mb-2">仮想空間を切り裂く旋律。</p>
+          <p class="text-xs opacity-50 uppercase">Melodies that slice through the virtual world.</p>
+        </div>
+      </div>
+      <!-- BASS -->
+      <div class="glass-card overflow-hidden group">
+        <div class="h-80 w-full relative">
+          <img src="assets/img/members/sintone.webp" alt="SINTONE" class="w-full h-full object-cover">
+          <div class="absolute bottom-4 left-4 text-left bg-black/60 px-2 py-1 rounded">
+            <span class="text-xs tracking-tighter uppercase opacity-60">BASS</span>
+            <h4 class="text-2xl font-bold">SINTONE</h4>
+          </div>
+        </div>
+        <div class="p-6">
+          <p class="text-sm mb-2">重低音で世界を揺らす。</p>
+          <p class="text-xs opacity-50 uppercase">Shaking the world with deep bass.</p>
+        </div>
+      </div>
+      <!-- DRUMS -->
+      <div class="glass-card overflow-hidden group">
+        <div class="h-80 w-full relative">
+          <img src="assets/img/members/ginko.webp" alt="GINKO" class="w-full h-full object-cover">
+          <div class="absolute bottom-4 left-4 text-left bg-black/60 px-2 py-1 rounded">
+            <span class="text-xs tracking-tighter uppercase opacity-60">DRUMS</span>
+            <h4 class="text-2xl font-bold">GINKO</h4>
+          </div>
+        </div>
+        <div class="p-6">
+          <p class="text-sm mb-2">リズムで魂を導く。</p>
+          <p class="text-xs opacity-50 uppercase">Guiding the soul with rhythm.</p>
+        </div>
+      </div>
+      <!-- KEYBOARD -->
+      <div class="glass-card overflow-hidden group">
+        <div class="h-80 w-full relative">
+          <img src="assets/img/members/niu.webp" alt="niu" class="w-full h-full object-cover">
+          <div class="absolute bottom-4 left-4 text-left bg-black/60 px-2 py-1 rounded">
+            <span class="text-xs tracking-tighter uppercase opacity-60">KEYBOARD</span>
+            <h4 class="text-2xl font-bold">niu</h4>
+          </div>
+        </div>
+        <div class="p-6">
+          <p class="text-sm mb-2">幻想的な音色で彩る。</p>
+          <p class="text-xs opacity-50 uppercase">Coloring the world with fantastic tones.</p>
         </div>
       </div>
     </div>
   </section>
-  {% endfor %}
 
-  <!-- Social Promotion Section -->
-  <footer class="bg-gray-900 text-white py-16">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-2xl font-bold mb-4">Check us out on X and YouTube!</h2>
-      <p class="mb-6">Follow us for the latest updates, videos, and more.</p>
-      <div class="flex justify-center gap-8">
-        <a href="https://x.com/metality_united" target="_blank" rel="noopener" class="w-12">
-          <img src="assets/icon/x.svg" alt="X">
-        </a>
-        <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" class="w-16">
-          <img src="assets/icon/yt.png" alt="YouTube" class="">
-        </a>
+  <!-- Discography Section -->
+  <section id="discography" class="section-padding bg-black/40">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-4xl font-bold text-center mb-16 tracking-widest uppercase">Discography</h3>
+      <div class="space-y-12">
+        <!-- Divine Punishment -->
+        <div class="flex flex-col md:flex-row items-center gap-12 glass-card p-8">
+          <div class="w-64 h-64 rounded shadow-2xl flex-shrink-0 flex items-center justify-center overflow-hidden bg-black/80">
+            <img src="assets/img/discography/DIVINEPUNISHMENT.webp" alt="DIVINE PUNISHMENT" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <span class="inline-block px-3 py-1 bg-cyan-500/20 text-cyan-400 text-xs font-bold rounded-full mb-4">LATEST RELEASE</span>
+            <h4 class="text-3xl font-bold mb-2">DIVINE PUNISHMENT <span class="text-base font-normal opacity-60">2025</span></h4>
+            <p class="mb-6 opacity-80">
+              「神罰の轟きが、魂を浄化する。」<br>
+              メタリックな重厚感と荘厳な旋律が交錯する最新シングル。
+            </p>
+            <p class="text-sm opacity-50 mb-6 uppercase">
+              "The roar of divine punishment purifies the soul."<br>
+              The latest single, where metallic heaviness and majestic melodies intertwine.
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+              <a href="https://open.spotify.com/intl-ja/album/0Cnod8v4iJet1EqJZUsbVr" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Spotify</a>
+              <a href="https://music.apple.com/jp/album/divine-punishment-single/1830160887" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Apple Music</a>
+              <a href="https://music.youtube.com/playlist?list=OLAK5uy_nrqhdn1qZFN4TZomy21urkPlUbiRb-R2U" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">YouTube Music</a>
+            </div>
+          </div>
+        </div>
+        <!-- BLACKWINGS -->
+        <div class="flex flex-col md:flex-row items-center gap-12 glass-card p-8">
+          <div class="w-64 h-64 rounded shadow-2xl flex-shrink-0 flex items-center justify-center overflow-hidden bg-black/80">
+            <img src="assets/img/discography/BLACKWINGS.webp" alt="BLACKWINGS" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full mb-4">SINGLE</span>
+            <h4 class="text-3xl font-bold mb-2">BLACKWINGS <span class="text-base font-normal opacity-60">2024</span></h4>
+            <p class="mb-6 opacity-80">黒き翼が夜を切り裂く、疾走感あふれるメタルチューン。</p>
+            <p class="text-sm opacity-50 mb-6 uppercase">A fast-paced metal tune with black wings slicing through the night.</p>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+              <a href="https://open.spotify.com/intl-ja/track/0PIRaajKGkmojgCnPDHLpC" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Spotify</a>
+              <a href="https://music.apple.com/jp/album/black-wings-single/1773209410" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Apple Music</a>
+              <a href="https://music.youtube.com/watch?v=sXS8WgyGrXE" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">YouTube Music</a>
+            </div>
+          </div>
+        </div>
+        <!-- NIGHT OF DEATH -->
+        <div class="flex flex-col md:flex-row items-center gap-12 glass-card p-8">
+          <div class="w-64 h-64 rounded shadow-2xl flex-shrink-0 flex items-center justify-center overflow-hidden bg-black/80">
+            <img src="assets/img/discography/NIGHTOFDEATH.webp" alt="NIGHT OF DEATH" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full mb-4">SINGLE</span>
+            <h4 class="text-3xl font-bold mb-2">NIGHT OF DEATH <span class="text-base font-normal opacity-60">2023</span></h4>
+            <p class="mb-6 opacity-80">すべての魂が虚無へと向かう夜を描いたダーク・シンフォニック。</p>
+            <p class="text-sm opacity-50 mb-6 uppercase">A dark symphonic piece depicting the night all souls head to oblivion.</p>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+              <a href="https://open.spotify.com/intl-ja/track/1JD7Om8Bz8ESRtNOR6mgAO" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Spotify</a>
+              <a href="https://music.apple.com/jp/album/night-of-death-single/1701930031" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Apple Music</a>
+              <a href="https://music.youtube.com/watch?v=Za0madxjLS8" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">YouTube Music</a>
+            </div>
+          </div>
+        </div>
+        <!-- LOST BLESSING -->
+        <div class="flex flex-col md:flex-row items-center gap-12 glass-card p-8">
+          <div class="w-64 h-64 rounded shadow-2xl flex-shrink-0 flex items-center justify-center overflow-hidden bg-black/80">
+            <img src="assets/img/discography/LOSTBLESSING.webp" alt="LOST BLESSING" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <span class="inline-block px-3 py-1 bg-pink-500/20 text-pink-400 text-xs font-bold rounded-full mb-4">SINGLE</span>
+            <h4 class="text-3xl font-bold mb-2">LOST BLESSING <span class="text-base font-normal opacity-60">2022</span></h4>
+            <p class="mb-6 opacity-80">祝福が悲劇の連鎖を生み、絶望の炎が魂を焦がす。</p>
+            <p class="text-sm opacity-50 mb-6 uppercase">A blessing breeds a tragic cycle, and the fires of despair scorch the soul.</p>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+              <a href="https://open.spotify.com/intl-ja/album/3yJ3cOs1lBT8tl5pTxasNp" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Spotify</a>
+              <a href="https://music.apple.com/jp/album/lost-blessing-single/1710714032" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">Apple Music</a>
+              <a href="https://music.youtube.com/playlist?list=OLAK5uy_ku8ZBd5knVvpxjd0CaEWBkdxXfJ-sNg20" target="_blank" rel="noopener" class="px-6 py-2 border border-white/20 hover:bg-white/10 rounded-full transition">YouTube Music</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="text-gray-400 text-center py-8 text-sm">
-      &copy; 2025 METALITY UNITED. All rights reserved.
+  </section>
+
+  <!-- SNS Links Section -->
+  <section id="connect" class="section-padding max-w-4xl mx-auto">
+    <h3 class="text-3xl font-bold text-center mb-8">FOLLOW US</h3>
+    <div class="glass-card p-8 flex flex-col items-center space-y-6">
+      <a href="https://x.com/metality_united" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-cyan-400 rounded-full hover:bg-cyan-400/10 transition w-full max-w-md justify-center">
+        <img src="assets/icon/x.svg" alt="X(Twitter)" class="w-7 h-7">
+        <span class="text-lg font-bold text-cyan-400">X (Twitter)</span>
+      </a>
+      <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-red-500 rounded-full hover:bg-red-500/10 transition w-full max-w-md justify-center">
+        <img src="assets/icon/yt.png" alt="YouTube" class="w-7 h-7">
+        <span class="text-lg font-bold text-red-500">YouTube</span>
+      </a>
     </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 text-center opacity-40 text-xs">
+    <p>© 2026 METALITY UNITED / LABELS RECORDS. ALL RIGHTS RESERVED.</p>
   </footer>
 
   <script>
-    document.querySelector('#splash-screen').addEventListener('click', function () {
-      this.classList.add('hidden');
-      document.querySelector('.hero-section').classList.add('active');
-      startBgm();
-    });
-    function startBgm() {
-      const albumSections = Array.from(document.querySelectorAll('.album-section'));
-      const audioElements = Array.from(document.querySelectorAll('.album-section audio'));
-      const coverElements = Array.from(document.querySelectorAll('.album-section .album-image'));
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const sources = audioElements.map(el => audioCtx.createMediaElementSource(el));
-      const gainNodes = sources.map(src => {
-        const gain = audioCtx.createGain();
-        src.connect(gain).connect(audioCtx.destination);
-        gain.gain.value = 0;
-        return gain;
+    // --- 3D Background with Three.js ---
+    let scene, camera, renderer, particles;
+
+    function init3D() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
+
+      renderer = new THREE.WebGLRenderer({ alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+      // Create Starfield / Particles
+      const geometry = new THREE.BufferGeometry();
+      const vertices = [];
+      for (let i = 0; i < 5000; i++) {
+        vertices.push(
+          Math.random() * 2000 - 1000,
+          Math.random() * 2000 - 1000,
+          Math.random() * 2000 - 1000
+        );
+      }
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+
+      const material = new THREE.PointsMaterial({
+        color: 0x00f2ff,
+        size: 2,
+        transparent: true,
+        opacity: 0.5
       });
-      audioElements.forEach(el => el.play());
-      // スクロールでクロスフェード
-      window.addEventListener('scroll', function () {
-        const windowCenterY = window.innerHeight / 2;
-        const scrollY = window.scrollY;
-        albumSections.forEach((cover, i) => {
-          const audioElement = audioElements[i];
-          const gainNode = gainNodes[i];
-          const rect = cover.getBoundingClientRect();
-          // centerPositionYがrect.topとrect.bottomの間にあるときはvol=1、そこから離れるにつれて0にフェード
-          if (windowCenterY >= rect.top && windowCenterY <= rect.bottom) {
-            if (gainNode.gain.value === 0) {
-              gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 2);
-              audioElement.currentTime = 0;
-            }
-          } else {
-            if (gainNode.gain.value === 1) {
-              gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
-            }
-          }
+
+      particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      // Add some neon shapes
+      const torusGeo = new THREE.TorusGeometry(10, 3, 16, 100);
+      const torusMat = new THREE.MeshBasicMaterial({ color: 0xbc13fe, wireframe: true, transparent: true, opacity: 0.1 });
+      const torus = new THREE.Mesh(torusGeo, torusMat);
+      scene.add(torus);
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      particles.rotation.y += 0.001;
+      particles.rotation.x += 0.0005;
+      renderer.render(scene, camera);
+    }
+
+    window.onload = init3D;
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
         });
       });
-    }
-    window.addEventListener('scroll', function () {
-      const hero = document.querySelector('.hero-section');
-      if (!hero) return;
-      if (window.scrollY > window.innerHeight / 2) {
-        hero.classList.add('blur');
-      } else {
-        hero.classList.remove('blur');
-      }
     });
-
-    window.onload = function () {
-      const splashScreen = document.getElementById('splash-screen');
-      const heroSection = document.getElementById('hero');
-
-      // クエリパラメータでスプラッシュをスキップ
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('skipSplash') === '1') {
-        splashScreen.classList.add('hidden');
-        if (heroSection) heroSection.classList.add('active');
-      }
-
-      // Hide splash screen after a few seconds
-      setTimeout(() => {
-        splashScreen.classList.add('hidden');
-        heroSection.classList.add('active');
-      }, 5000);
-    };
   </script>
 </body>
 

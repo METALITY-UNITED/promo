@@ -1,0 +1,293 @@
+---
+logo: assets/img/logo.webp
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{site.title}}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <base href="{{ site.baseurl }}/">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0d0d0d;
+      color: #f0f0f0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .hero-section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background-image: url('assets/img/profile.webp');
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      -webkit-transition: filter 0.5s ease-in-out;
+    }
+
+    .hero-section.active {
+      opacity: 1;
+    }
+
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+    }
+
+    #splash-screen img {
+      max-width: 90vw;
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #splash-screen-logo {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .album-section {
+      padding: 8rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .album-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .album-image {
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+      border-radius: 10px;
+    }
+
+    .album-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .streaming-links {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .streaming-link img {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .streaming-link img:hover {
+      transform: scale(1.1);
+    }
+
+    .album-section-parallax {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .album-content {
+        flex-direction: column;
+      }
+
+      .album-image {
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RWR8BDC7G4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-RWR8BDC7G4');
+</script>
+
+<body>
+  <div id="splash-screen">
+    <img id="splash-screen-logo" src="{{ page.logo }}" alt="METALITY UNITED ロゴ" fetchpriority="high" />
+    <p class="mt-8 text-xl">Tap to enter</p>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <h1 class="text-5xl md:text-7xl font-bold text-center uppercase tracking-wider">
+      METALITY UNITED
+    </h1>
+    <p class="mt-4 text-xl md:text-2xl text-center">
+      Symphonic Melodic Power Metal
+    </p>
+  </section>
+
+  <!-- Album Section 1 -->
+  {% for work in site.data.works %}
+  <section class="album-section bg-gray-900">
+    <audio src="{{ work.audio }}" loop preload="auto"></audio>
+    <div class="album-section-parallax blur brightness-50 bg-fixed" style="background-image: url('{{ work.image }}');">
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+      <div class="album-content rounded-xl">
+        <img src="{{ work.image }}" alt="{{ work.title }}" class="album-image">
+        <h2 class="text-4xl font-bold mt-8">{{ work.title }}</h2>
+        <p class="mt-4 text-lg max-w-2xl mx-auto">{{ work.description }}</p>
+        <div class="streaming-links">
+          {% for link in work.links %}
+          <a href="{{ link.url }}" target="_blank" class="streaming-link size-12">
+            <img src="{{ link.icon }}" alt="{{ link.name }}">
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  <!-- Social Promotion Section -->
+  <footer class="bg-gray-900 text-white py-16">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4">Check us out on X and YouTube!</h2>
+      <p class="mb-6">Follow us for the latest updates, videos, and more.</p>
+      <div class="flex justify-center gap-8">
+        <a href="https://x.com/metality_united" target="_blank" rel="noopener" class="w-12">
+          <img src="assets/icon/x.svg" alt="X">
+        </a>
+        <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" class="w-16">
+          <img src="assets/icon/yt.png" alt="YouTube" class="">
+        </a>
+      </div>
+    </div>
+    <div class="text-gray-400 text-center py-8 text-sm">
+      &copy; 2025 METALITY UNITED. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('#splash-screen').addEventListener('click', function () {
+      this.classList.add('hidden');
+      document.querySelector('.hero-section').classList.add('active');
+      startBgm();
+    });
+    function startBgm() {
+      const albumSections = Array.from(document.querySelectorAll('.album-section'));
+      const audioElements = Array.from(document.querySelectorAll('.album-section audio'));
+      const coverElements = Array.from(document.querySelectorAll('.album-section .album-image'));
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const sources = audioElements.map(el => audioCtx.createMediaElementSource(el));
+      const gainNodes = sources.map(src => {
+        const gain = audioCtx.createGain();
+        src.connect(gain).connect(audioCtx.destination);
+        gain.gain.value = 0;
+        return gain;
+      });
+      audioElements.forEach(el => el.play());
+      // スクロールでクロスフェード
+      window.addEventListener('scroll', function () {
+        const windowCenterY = window.innerHeight / 2;
+        const scrollY = window.scrollY;
+        albumSections.forEach((cover, i) => {
+          const audioElement = audioElements[i];
+          const gainNode = gainNodes[i];
+          const rect = cover.getBoundingClientRect();
+          // centerPositionYがrect.topとrect.bottomの間にあるときはvol=1、そこから離れるにつれて0にフェード
+          if (windowCenterY >= rect.top && windowCenterY <= rect.bottom) {
+            if (gainNode.gain.value === 0) {
+              gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 2);
+              audioElement.currentTime = 0;
+            }
+          } else {
+            if (gainNode.gain.value === 1) {
+              gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+            }
+          }
+        });
+      });
+    }
+    window.addEventListener('scroll', function () {
+      const hero = document.querySelector('.hero-section');
+      if (!hero) return;
+      if (window.scrollY > window.innerHeight / 2) {
+        hero.classList.add('blur');
+      } else {
+        hero.classList.remove('blur');
+      }
+    });
+
+    window.onload = function () {
+      const splashScreen = document.getElementById('splash-screen');
+      const heroSection = document.getElementById('hero');
+
+      // クエリパラメータでスプラッシュをスキップ
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('skipSplash') === '1') {
+        splashScreen.classList.add('hidden');
+        if (heroSection) heroSection.classList.add('active');
+      }
+
+      // Hide splash screen after a few seconds
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+        heroSection.classList.add('active');
+      }, 5000);
+    };
+  </script>
+</body>
+
+</html>
