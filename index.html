@@ -362,6 +362,10 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      // スクロール量に応じて星空全体を上下に動かす（パララックス効果）
+      const scrollY = window.scrollY || window.pageYOffset;
+      // 星の動きの強さは調整可能（0.2など）
+      particles.position.y = -scrollY * 0.01;
       particles.rotation.y += 0.001;
       particles.rotation.x += 0.0005;
       renderer.render(scene, camera);
