@@ -7,7 +7,21 @@
   <meta charset="UTF-8">
   <meta name="theme-color" content="#000000">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{site.title}}</title>
+  <title>METALITY UNITED – Symphonic & Power Metal VTuber Band</title>
+  <meta name="description" content="METALITY UNITED – A VTuber symphonic and power metal band blending epic orchestrations with blazing guitar solos. Fans of Nightwish, Epica, and DragonForce: stream our music on Spotify and Apple Music now.">
+  <meta name="keywords" content="symphonic metal, power metal, VTuber metal, METALITY UNITED, Japanese metal band, Nightwish, Epica, DragonForce, metal anime, virtual metal band">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}/">
+  <meta property="og:title" content="METALITY UNITED – Symphonic & Power Metal VTuber Band">
+  <meta property="og:description" content="Epic symphonic and power metal from the virtual realm. Stream on Spotify and Apple Music. For fans of Nightwish, Epica, Blind Guardian, and DragonForce.">
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/img/discography/DIVINEPUNISHMENT.webp">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@metality_united">
+  <meta name="twitter:title" content="METALITY UNITED – Symphonic & Power Metal VTuber Band">
+  <meta name="twitter:description" content="Epic symphonic and power metal from the virtual realm. Stream on Spotify and Apple Music.">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/img/discography/DIVINEPUNISHMENT.webp">
   <base href="{{ site.baseurl }}/">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -77,6 +91,45 @@
       transform: scale(1.05);
       box-shadow: 0 0 30px rgba(188, 19, 254, 0.6);
     }
+
+    .btn-stream {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-stream:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .btn-stream img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+    }
+
+    .btn-stream-spotify {
+      background-color: #1DB954;
+      color: #000;
+    }
+
+    .btn-stream-apple {
+      background: linear-gradient(135deg, #fc3c44, #c31b3c);
+      color: #fff;
+    }
+
+    .btn-stream-youtube {
+      background-color: #FF0000;
+      color: #fff;
+    }
   </style>
 </head>
 <!-- Google tag (gtag.js) -->
@@ -99,21 +152,37 @@
       <a href="#about" class="hover:text-cyan-400">About</a>
       <a href="#members" class="hover:text-cyan-400">Members</a>
       <a href="#discography" class="hover:text-cyan-400">Discography</a>
-      <a href="#connect" class="hover:text-cyan-400">Connect</a>
+      <a href="#connect" class="hover:text-cyan-400">Stream</a>
+      <a href="listen.html" class="px-4 py-1 rounded-full text-black font-bold btn-stream-spotify">▶ Listen</a>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="h-screen flex flex-col justify-center items-center text-center px-4">
-    <h2 class="text-sm md:text-xl mb-4 tracking-[0.3em] opacity-80">METAVERSE × SYMPHONIC METAL</h2>
+    <h2 class="text-sm md:text-xl mb-4 tracking-[0.3em] opacity-80">SYMPHONIC METAL × POWER METAL × METAVERSE</h2>
     <h1 class="text-5xl md:text-8xl font-bold mb-6 gradient-text">METALITY UNITED</h1>
-    <p class="text-lg md:text-2xl max-w-2xl font-light leading-relaxed mb-8">
-      魂を解放せよ。仮想世界から響く、次世代のシンフォニック・メタル。<br>
-      <span class="text-sm opacity-70">Unleash your soul. The next generation of symphonic metal echoing from the
-        virtual realm.</span>
+    <p class="text-lg md:text-2xl max-w-2xl font-light leading-relaxed mb-4">
+      Unleash your soul. Epic symphonic &amp; power metal from the virtual realm.<br>
+      <span class="text-sm opacity-70">魂を解放せよ。仮想世界から響く、次世代のシンフォニック・パワーメタル。</span>
     </p>
-    <div class="flex flex-col md:flex-row gap-4">
-      <a href="listen.html" class="btn-action">LISTEN NOW / 今すぐ聴く</a>
+    <p class="text-xs md:text-sm opacity-60 mb-8 tracking-widest uppercase">
+      ♪ For fans of Nightwish · Epica · Blind Guardian · DragonForce
+    </p>
+    <div class="flex flex-col md:flex-row gap-4 mb-8">
+      <a href="listen.html" class="btn-action text-lg">▶ LISTEN NOW / 今すぐ聴く</a>
+    </div>
+    <!-- Streaming platform badges -->
+    <div class="flex items-center gap-6 opacity-70">
+      <span class="text-xs uppercase tracking-widest">Available on</span>
+      <a href="https://open.spotify.com/artist/5QVPX4YI3TMDFVNxxFNPKB" target="_blank" rel="noopener" title="Spotify">
+        <img src="assets/icon/spotify.svg" alt="Spotify" class="w-6 h-6 hover:opacity-100 transition-opacity">
+      </a>
+      <a href="https://music.apple.com/us/artist/metality-united/1701929844" target="_blank" rel="noopener" title="Apple Music">
+        <img src="assets/icon/apple_music.svg" alt="Apple Music" class="w-6 h-6 hover:opacity-100 transition-opacity">
+      </a>
+      <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" title="YouTube">
+        <img src="assets/icon/yt.png" alt="YouTube" class="w-6 h-6 hover:opacity-100 transition-opacity">
+      </a>
     </div>
   </section>
 
@@ -124,9 +193,13 @@
       <p class="mb-4 text-lg">
         METALITY UNITEDは、現実とメタバースの境界線を破壊するために結成されたVTuberメタルユニット。壮大なオーケストレーションと重厚なギターリフ、そして圧倒的なスピード感が、デジタルな感情を加速させる。
       </p>
-      <p class="text-sm opacity-70 italic mb-8">
-        METALITY UNITED fuses the epic sound of symphonic metal with the speed and power of modern metal, all brought to life by cutting-edge VTuber performers. Dive into a new digital world where soaring orchestrations, blazing guitar solos, and unstoppable energy collide. For fans of symphonic, speed, and power metal—welcome to the next generation of virtual metal!
+      <p class="text-sm opacity-70 italic mb-6">
+        METALITY UNITED is a VTuber metal unit forged to shatter the boundary between reality and the metaverse. Soaring orchestrations, crushing guitar riffs, and unstoppable speed collide to supercharge digital emotion.
       </p>
+      <p class="text-sm opacity-50 mb-8 uppercase tracking-widest">
+        Symphonic Metal · Power Metal · Speed Metal · Virtual Band
+      </p>
+      <a href="listen.html" class="btn-action inline-block">▶ Stream All Releases</a>
     </div>
   </section>
 
@@ -292,16 +365,38 @@
 
   <!-- SNS Links Section -->
   <section id="connect" class="section-padding max-w-4xl mx-auto">
-    <h3 class="text-3xl font-bold text-center mb-8">FOLLOW US</h3>
-    <div class="glass-card p-8 flex flex-col items-center space-y-6">
-      <a href="https://x.com/metality_united" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-cyan-400 rounded-full hover:bg-cyan-400/10 transition w-full max-w-md justify-center">
-        <img src="assets/icon/x.svg" alt="X(Twitter)" class="w-7 h-7">
-        <span class="text-lg font-bold text-cyan-400">X (Twitter)</span>
+    <h3 class="text-3xl font-bold text-center mb-4">STREAM &amp; FOLLOW</h3>
+    <p class="text-center opacity-60 text-sm mb-8 uppercase tracking-widest">Available on all major platforms</p>
+    <div class="glass-card p-8 flex flex-col items-center space-y-4">
+      <!-- Streaming platforms -->
+      <a href="https://open.spotify.com/artist/5QVPX4YI3TMDFVNxxFNPKB" target="_blank" rel="noopener"
+        class="btn-stream btn-stream-spotify flex items-center gap-3 px-6 py-3 w-full max-w-md justify-center">
+        <img src="assets/icon/spotify.svg" alt="Spotify" class="w-6 h-6">
+        <span class="text-lg font-bold">Listen on Spotify</span>
       </a>
-      <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-red-500 rounded-full hover:bg-red-500/10 transition w-full max-w-md justify-center">
-        <img src="assets/icon/yt.png" alt="YouTube" class="w-7 h-7">
-        <span class="text-lg font-bold text-red-500">YouTube</span>
+      <a href="https://music.apple.com/us/artist/metality-united/1701929844" target="_blank" rel="noopener"
+        class="btn-stream btn-stream-apple flex items-center gap-3 px-6 py-3 w-full max-w-md justify-center">
+        <img src="assets/icon/apple_music.svg" alt="Apple Music" class="w-6 h-6">
+        <span class="text-lg font-bold">Listen on Apple Music</span>
       </a>
+      <a href="https://music.youtube.com/channel/UCuBTxLJSRJmJjpCOxEu3xmw" target="_blank" rel="noopener"
+        class="btn-stream btn-stream-youtube flex items-center gap-3 px-6 py-3 w-full max-w-md justify-center">
+        <img src="assets/icon/yt.png" alt="YouTube Music" class="w-6 h-6">
+        <span class="text-lg font-bold">Listen on YouTube Music</span>
+      </a>
+      <!-- Social -->
+      <div class="w-full max-w-md border-t border-white/10 pt-4 mt-2 flex gap-4 justify-center">
+        <a href="https://x.com/metality_united" target="_blank" rel="noopener"
+          class="flex items-center gap-2 px-5 py-2 border border-cyan-400 rounded-full hover:bg-cyan-400/10 transition">
+          <img src="assets/icon/x.svg" alt="X(Twitter)" class="w-5 h-5">
+          <span class="text-sm font-bold text-cyan-400">X (Twitter)</span>
+        </a>
+        <a href="https://www.youtube.com/@METALITYUNITED" target="_blank" rel="noopener"
+          class="flex items-center gap-2 px-5 py-2 border border-red-500 rounded-full hover:bg-red-500/10 transition">
+          <img src="assets/icon/yt.png" alt="YouTube" class="w-5 h-5">
+          <span class="text-sm font-bold text-red-500">YouTube</span>
+        </a>
+      </div>
     </div>
   </section>
 
